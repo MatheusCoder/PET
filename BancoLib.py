@@ -5,9 +5,11 @@ class Conta():
     def __init__(self, numConta):
         self.numero = numConta
         self.saldo = 0
+        self.bonus = 0
 
     def deposite(self, valor):
-        self.saldo = self.saldo + valor
+        self.saldo = (self.saldo + valor) - ((0.1/100)*valor)
+        self.bonus = (0.1/100)*valor
 
     def sacar(self, valor):
         if self.saldo >= valor:
@@ -22,6 +24,13 @@ class Poupanca(Conta):
     def render(self, valor):
         x = valor/100
         self.saldo = self.saldo + self.saldo * x
+
+        
+class ContaBonificada(Conta):    
+    def renderbonus(self):
+        self.bonus = self.bonus
+        self.saldo = self.saldo + self.bonus
+        self.bonus = 0
 
 
 class Banco():
@@ -42,6 +51,12 @@ class Banco():
         num = random.randint(0, 1000)
         p = Poupanca(num)
         self.contas.append(p)
+        return num
+    
+    def criarBonificada(self):
+        num = random.randint(0, 1000)
+        b = Bonificada(num)
+        self.contas.append(b)
         return num
 
     def consultaSaldo(self, numConta):
@@ -64,5 +79,12 @@ class Banco():
         for i in self.contas:
             if i.numero == numConta and isinstance(i, Poupanca):
                 i.render(valor)
+                return True
+        return False
+    
+    def renderbonificada(self, numConta):
+        for conta in self.contas:
+            if conta.numero == numConta and isinstance(conta, Bonificada):
+                conta.renderbonus()
                 return True
         return False
