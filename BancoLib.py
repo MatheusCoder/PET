@@ -55,7 +55,7 @@ class Banco():
     
     def criarBonificada(self):
         num = random.randint(0, 1000)
-        b = Bonificada(num)
+        b = ContaBonificada(num)
         self.contas.append(b)
         return num
 
@@ -82,9 +82,9 @@ class Banco():
                 return True
         return False
     
-    def renderbonificada(self, numConta):
+    def renderBonificada(self, numConta):
         for conta in self.contas:
-            if conta.numero == numConta and isinstance(conta, Bonificada):
+            if conta.numero == numConta and isinstance(conta, ContaBonificada):
                 conta.renderbonus()
                 return True
         return False
